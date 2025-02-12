@@ -10,5 +10,4 @@ book:
         - materials/06-dependencies.md
         - materials/07-files.md
   appendices:
-    - materials/appendices/csd3.md
     - materials/appendices/slurm_cheatsheet.md
