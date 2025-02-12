@@ -8,11 +8,11 @@ number-sections: false
 
 Knowing how to work on a **High Performance Computing (HPC)** system is an essential skill for applications such as bioinformatics, big-data analysis, image processing, machine learning, parallelising tasks, and other high-throughput applications. 
 
-These materials give a practical overview of working on HPC servers, with a particular focus on submitting and monitoring jobs using a job scheduling software. 
-We focus on the job scheduler SLURM, although the concepts covered are applicable to other commonly used job scheduling software.
-This is a hands-on workshop, which should be accessible to researchers from a range of backgrounds and offering several opportunities to practice the skills we learn along the way.
+These materials give a brief practical overview of working on HPC servers, with a particular focus on submitting and monitoring jobs using a job scheduling software. 
+We focus on the job scheduler SLURM, although the concepts covered are applicable to other commonly used job scheduling software. 
 
-By the end of this course you will be able to independently work on a typical HPC server.
+These materials are a reduced version of the University of Cambridge Bioinformatics Training Unit HPC workshop. The complete set of materials can be found [here](https://github.com/cambiotraining/hpc-intro).
+
 
 :::{.callout-tip}
 #### Learning Objectives
@@ -21,24 +21,13 @@ By the end of this course you will be able to independently work on a typical HP
 - Recognise the tasks that a HPC cluster is suitable for. 
 - Access and work on a HPC server.
 - Submit and manage jobs running on a HPC.
-- Paralelise similar tasks at scale.
-- Access, install and manage software on a HPC.
 :::
-
-
-## Target Audience
-
-This course is aimed at students and researchers of any background. 
-We assume no prior knowledge of what a HPC is or how to use it.
-
-It may be particularly useful for those who have attended other of our [Bioinformatics Training Courses](https://www.training.cam.ac.uk/bioinformatics/search) and now need to process their data on a Linux server. 
-It will also benefit those who find themselves using their personal computers to run computationally demanding analysis/simulations and would like to learn how to adapt these to run on a HPC.
 
 
 ## Prerequisites
 
-We assume a solid knowledge of the Unix command line. 
-If you don't feel comfortable with the command line, please attend our accompanying [Introduction to the Unix Command Line](https://training.csx.cam.ac.uk/bioinformatics/course/bioinfo-unix2) course.
+We assume some knowledge of the Unix command line. 
+If you don't feel comfortable with the command line, we recommend [Introduction to the Unix Command Line](https://training.csx.cam.ac.uk/bioinformatics/course/bioinfo-unix2) course from the Bioinformatics Training Facility at the University of Cambridge.
 
 Namely, we expect you to be familiar with the following:
 
@@ -72,3 +61,4 @@ If you think you should be added as an author, please get in touch with us.
 - Thanks to Qi Wang (Department of Plant Sciences, University of Cambridge) for constructive feedback and ideas in the early iterations of this course.
 - Thanks to [@Alylaxy](https://github.com/Alylaxy) for his pull requests to the repo ([#34](https://github.com/cambiotraining/hpc-intro/pull/34)).
 - Thanks to the [HPC Carpentry](https://www.hpc-carpentry.org/index.html) community for developing similar content.
+- Thanks to the [Bioinformatics Training Facility](https://www.gen.cam.ac.uk/facilities/bioinformatics-training) of the University of Cambridge for letting us adapt these materials.
