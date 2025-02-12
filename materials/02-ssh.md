@@ -9,7 +9,6 @@ pagetitle: "HPC SLURM"
 
 - Connect to a HPC server using _SSH_ and navigate its filesystem.
 - Edit scripts directly from the HPC using a terminal-based text editor such as `nano`.
-- Connect the _VS Code_ text editor to a remote server and use it to edit and run scripts.
 :::
 
 ![Useful tools for working on a remote HPC server. The terminal is used to login to the HPC server and interact with it (e.g. submit jobs, navigate the filesystem). _Visual Studio Code_ is a text editor that has the ability to connect to a remote server so that we can edit scripts stored on the HPC. _Nano_ is a simpler text editor available directly from the terminal (no need to install anything). _Filezilla_ is an FTP application, which can be used to transfer files between the HPC and your local computer.](images/tool_overview.svg)
@@ -96,82 +95,6 @@ Alternatively, you can use the right mouse button.
 :::
 
 
-### Exercise: SSH
-
-:::{.callout-exercise}
-
-After registering for a HPC account, you were sent the following information by the computing support:
-
-> An account has been created for you on our HPC. 
-> 
-> - Username: emailed separately
-> - Password: emailed separately
-> - Host: `login.hpc.cam.ac.uk`
-> 
-> You were automatically allocated 40GB in `/home/USERNAME/` (backed storage) and 1TB in `/home/USERNAME/rds/hpc-work` (non-backed high-performance "scratch" space for computations). 
-
-1. Connect to the training HPC using `ssh`. (Note: when you type your password, nothing shows on the screen - that's normal, the password is still being input.)
-2. Take some time to explore your home directory to identify what files and folders are in there. 
-Can you identify and navigate to your high-performance compute directory?
-3. Use the commands `free -h` (available RAM memory) and `nproc --all` (number of CPU cores available) to check the capabilities of the login node of our HPC. Check how many people are logged in to the HPC login node using the command `who`.
-
-:::{.callout-answer}
-
-**A1.**
-
-To login to the HPC we run the following from the terminal:
-
-```bash
-ssh USERNAME@HOSTNAME
-```
-
-Replacing "USERNAME" by your HPC username and "HOSTNAME" with the name of the server you are accessing. 
-After typing it, you will be prompted for your password. 
-Note that as you type the password nothing shows on the screen - that's normal! 
-The password is still being input. 
-
-**A2.**
-
-We can get a detailed list of the files on our home directory:
-
-```bash
-ls -l
-```
-
-This will reveal that there is a shell script (`.sh` extension) named `slurm_submit_template.sh` and also a shortcut to our scratch directory, in this case `/home/username/rds/`. 
-Within that directory, we have another one named `hpc-work`, which is the default high-performance storage we were given on this cluster. 
-
-Therefore, to navigate to our scratch directory we can do:
-
-```bash
-cd ~/rds/hpc-work
-```
-
-Remember that `~` indicates your home directory, which in Linux filesystems is `/home/USERNAME/`.
-
-**A3.**
-
-The main thing to consider in this question is where you run the commands from. 
-To get the number of CPUs and memory on your computer make sure you open a new terminal and that you see something like `[your-local-username@laptop: ~]$` (where "user" is the username on your personal computer and "laptop" is the name of your personal laptop).
-Note that this does not work on the MacOS shell (see [this post](https://www.macworld.co.uk/how-to/how-check-mac-specs-processor-ram-3594298/) for instructions to find the specs of your Mac). 
-
-Conversely, to obtain the same information for the HPC, make sure you are logged in to the HPC when you run the commands. 
-You should see something like `[your-hpc-username@login ~]$`.
-
-To see how many people are currently on the login node we can combine the `who` and `wc` commands:
-
-```bash
-# pipe the output of `who` to `wc`
-# the `-l` flag instructs `wc` to count "lines" of its input
-who | wc -l
-```
-
-You should notice that several people are using the same login node as you.
-This is why we should **never run resource-intensive applications on the login node** of a HPC. 
-
-:::
-:::
-
 :::{.callout-note}
 #### Passwordless Login
 
@@ -185,17 +108,11 @@ See [this page](https://code.visualstudio.com/docs/remote/troubleshooting#_quick
 
 Most of the work you will be doing on a HPC is editing script files.
 These may be scripts that you are developing to do a particular analysis or simulation, for example (in _Python_, _R_, _Julia_, etc.).
-But also - and more relevant for this course - you will be writing **shell scripts** containing the commands that you want to be executed on the compute nodes.
+But also you will be writing **shell scripts** containing the commands that you want to be executed on the compute nodes.
 
 There are several possibilities to edit text files on a remote server.
 A simple one is to use the program _Nano_ directly from the terminal. 
 This is a simple text editor available on most linux distributions, and what we will use in this course.
-
-Although _Nano_ is readily available and easy to use, it offers limited functionality and is not as user friendly as a full-featured text editor.
-Therefore, we also include a bonus section below introducing _Visual Studio Code_ (_VS Code_ for short), which is an open-source software with a wide range of functionality and several extensions, including one for working on remote servers.
-
-
-### Nano
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/GNU-Nano-Logo.png" alt="Nano text editor logo" style="float:right;width:20%">
 
@@ -210,65 +127,7 @@ Once we're happy with our code, we can press <kbd>Ctrl</kbd>+<kbd>O</kbd> to wri
 We'll be asked what file we want to save this to: press <kbd>Enter</kbd> to confirm the filename.
 Once our file is saved, we can use <kbd>Ctrl</kbd>+<kbd>X</kbd> to quit the editor and return to the shell.
 
-We can check with `ls` that our new file is there. 
-
-![Screenshot of the command line text editor _Nano_. In this example, we also included `!#/bin/bash` in the first line of the script. This is called a [_shebang_](https://en.wikipedia.org/wiki/Shebang_(Unix)) and is a way to inform that this script uses the program `bash` to run the script.](images/nano.png)
-
-Note that because we saved our file with `.sh` extension (the conventional extension used for shell scripts), _Nano_ does some colouring of our commands (this is called _syntax highlighting_) to make it easier to read the code. 
-
-
-### Visual Studio Code {#sec-vscode}
-
-<img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg" alt="Visual Studio Code text editor logo" style="float:right;width:20%">
-
-_VS Code_ is a fully-featured programming text editor available for all major platforms (Mac, Linux, Windows). 
-One of the strenghts of this text editor is the wide range of extensions it offers.
-One of those extensions is called **Remote SHH** and allows us to connect to a remote computer (via _ssh_) and edit files as if they were on our own computer. 
-See [Data & Setup](../setup.md) for how to install both _VS Code_ and this extension.
-
-To connect VS Code to the HPC (see image below):
-
-1. Click the "Open Remote Window" green button on the bottom left corner.
-2. Click "Connect to Host..." in the popup menu that opens.
-3. Click "+ Add New SSH Host...".
-4. Type your username and HPC hostname in the same way you do with `ssh`.
-5. Select SSH configuration file to save this information for the future. Select the first file listed in the popup menu (a file in your user's home under `.ssh/config`).
-6. A menu pops open on the bottom right informing the host was added to the configuration file. Click "Connect".
-7. You may be asked what kind of platform you are connecting to. HPC environments always run on Linux. 
-8. The first time you connect to a host you will also be asked if you trust this computer. You can answer "Continue". 
-9. Finally, you will be asked for your password. Once you are connected the green button on the bottom-left corner should change to indicate you are ssh'd into the HPC
-10. To open a folder on the HPC, use the left-hand "Explorer" and click "Open Folder"
-11. Type the _path_ to the folder on the HPC from where you want to work from and press OK
-    * You may be asked for your password again. The first time you connect to a folder you will also be asked "Do you trust the authors of the files in this folder?", to which you can answer "Yes, I trust the authors".
-
-<!-- inserting image with HTML to have a clickable link -->
-<div class="quarto-figure quarto-figure-center">
-  <figure class="figure">
-    <p>
-      <a href="images/vscode_ssh.svg" target="_blank">
-        <img class="img-fluid figure-img" src="images/vscode_ssh.svg"/>
-      </a>
-    </p>
-    <figcaption class="figure-caption">
-      Steps to connect to a remote server with _VS Code_. Click the image to open a larger size.
-    </figcaption>
-  </figure>
-</div>
-
-Once you are connected to the HPC in this way, you can edit files and even create new files and folders on the HPC filesystem.
-You can also **open a terminal within VS Code** by going to the menu "Terminal > New Terminal".
-
-:::{.callout-note}
-#### Two-factor authentication
-
-If your HPC requires two-factor authentication, then you need to make sure to have the correct setting in the `Remote-SSH` extension: 
-
-- Go to <kbd>File</kbd> → <kbd>Preferences</kbd> → <kbd>Settings</kbd>
-- In the search box type "Remote SSH: Show Login Terminal"
-- Make sure the option "Always reveal the SSH login terminal" is _ticked_.
-
-With this option turned on, when you try to connect to the HPC, a terminal will open that will ask for your password and two-factor authentication code. 
-:::
+Although _Nano_ is readily available and easy to use, it offers limited functionality and is not as user friendly as a full-featured text editor. Another options is _Visual Studio Code_ (_VS Code_ for short), which is an open-source software with a wide range of functionality and several extensions, including one for working on remote servers.
 
 
 ## Summary
@@ -281,7 +140,6 @@ With this option turned on, when you try to connect to the HPC, a terminal will 
 - _Nano_ is a text editor that is readily available on HPC systems. 
   - To create or edit an existing file we use the command `nano path/to/filename.sh`. 
   - Keyboard shortcuts are used to save the file (<kbd>Ctrl + O</kbd>) and to exit (<kbd>Ctrl + X</kbd>).
-- _Visual Studio Code_ is a text editor that can be used to edit files directly on the HPC using the "Remote-SSH" extension. 
 
 :::
 
