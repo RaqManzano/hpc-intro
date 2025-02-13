@@ -1,0 +1,542 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Working on HPC Clusters using SLURM",
+    "section": "",
+    "text": "Overview\nKnowing how to work on a High Performance Computing (HPC) system is an essential skill for applications such as bioinformatics, big-data analysis, image processing, machine learning, parallelising tasks, and other high-throughput applications.\nThese materials give a brief practical overview of working on HPC servers, with a particular focus on submitting and monitoring jobs using a job scheduling software. We focus on the job scheduler SLURM, although the concepts covered are applicable to other commonly used job scheduling software.\nThese materials are a reduced version of the University of Cambridge Bioinformatics Training Unit HPC workshop. The complete set of materials can be found here.",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Overview</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "Working on HPC Clusters using SLURM",
+    "section": "",
+    "text": "Learning Objectives\n\n\n\n\nDescribe how a HPC cluster is typically organised and how it differs from a regular computer.\nRecognise the tasks that a HPC cluster is suitable for.\nAccess and work on a HPC server.\nSubmit and manage jobs running on a HPC.",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Overview</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#prerequisites",
+    "href": "index.html#prerequisites",
+    "title": "Working on HPC Clusters using SLURM",
+    "section": "Prerequisites",
+    "text": "Prerequisites\nWe assume some knowledge of the Unix command line. If you don’t feel comfortable with the command line, we recommend Introduction to the Unix Command Line course from the Bioinformatics Training Facility at the University of Cambridge.\nNamely, we expect you to be familiar with the following:\n\nNavigate the filesystem: pwd (where am I?), ls (what’s in here?), cd (how do I get there?)\nInvestigate file content using utilities such as: head/tail, less, cat/zcat, grep\nUsing “flags” to modify a program’s behaviour, for example: ls -l\nRedirect output with &gt;, for example: echo \"Hello world\" &gt; some_file.txt\nUse the pipe | to chain several commands together, for example ls | wc -l\nExecute shell scripts with bash some_script.sh",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Overview</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#authors",
+    "href": "index.html#authors",
+    "title": "Working on HPC Clusters using SLURM",
+    "section": "Authors",
+    "text": "Authors\nPlease cite these materials if:\n\nYou adapted or used any of them in your own teaching.\nThese materials were useful for your research work. For example, you can cite us in the methods section of your paper: “We carried our analyses based on the recommendations in YourReferenceHere”.\n\n\nYou can cite these materials as:\n\nTavares, H., Kalmár, L. (2024). Working on HPC Clusters using SLURM. https://cambiotraining.github.io/hpc-intro\n\nOr in BibTeX format:\n@misc{YourReferenceHere,\n  author = {Tavares, Hugo and Kalmár, Lajos},\n  month = {9},\n  title = {Working on HPC Clusters using SLURM},\n  url = {https://cambiotraining.github.io/hpc-intro},\n  year = {2024}\n}\nAbout the authors:\nHugo Tavares  \nAffiliation: Cambridge Centre for Research Informatics Training Roles: writing - original draft; conceptualisation; software\n\nLajos Kalmár  \nAffiliation: MRC Toxicology Unit, University of Cambridge Roles: conceptualisation; software",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Overview</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#acknowledgements",
+    "href": "index.html#acknowledgements",
+    "title": "Working on HPC Clusters using SLURM",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\n\n\nThanks to Qi Wang (Department of Plant Sciences, University of Cambridge) for constructive feedback and ideas in the early iterations of this course.\nThanks to @Alylaxy for his pull requests to the repo (#34).\nThanks to the HPC Carpentry community for developing similar content.\nThanks to the Bioinformatics Training Facility of the University of Cambridge for letting us adapt these materials.",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Overview</span>"
+    ]
+  },
+  {
+    "objectID": "setup.html",
+    "href": "setup.html",
+    "title": "Data & Setup",
+    "section": "",
+    "text": "Software\nThere are three recommended pieces of software needed to work with the HPC:\nThis document gives instructions on how to install or access these on different operating systems.",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data & Setup</span>"
+    ]
+  },
+  {
+    "objectID": "setup.html#software",
+    "href": "setup.html#software",
+    "title": "Data & Setup",
+    "section": "",
+    "text": "a terminal\na file transfer software\na text editor with the ability to edit files on a remote server\n\n\n\nUnix terminal\n\nWindowsmacOSLinux\n\n\nIf you are comfortable with installing software on your computer, we highly recommend installing the Windows Subsystem for Linux (WSL2), which provides native Linux functionality from within Windows.\nAlternatively, you can install MobaXterm, which provides a Unix-like terminal on Windows.\nWe provide instructions for both.\n\nMobaXterm (recommended for windows users)WSL\n\n\n\nGo the the MobaXterm download page.\nDownload the “Portable edition” (blue button).\n\nUnzip the downloaded file and copy the folder to a convenient location, such as your Desktop.\nYou can directly run the program (without need for installation) from the executable in this folder.\n\n\nYou can access your Windows files from within MobaXterm. Your C:\\ drive is located in /drives/C/ (equally, other drives will be available based on their letter). For example, your documents will be located in: /drives/C/Users/&lt;WINDOWS USERNAME&gt;/Documents/. By default, MobaXterm creates shortcuts for your Windows Documents and Desktop.\nIt may be convenient to set shortcuts to other commonly-used directories, which you can do using symbolic links. For example, to create a shortcut to Downloads: ln -s /drives/C/Users/&lt;WINDOWS USERNAME&gt;/Downloads/ ~/Downloads\n\n\nThere are detailed instructions on how to install WSL on the Microsoft documentation page. But briefly:\n\nClick the Windows key and search for Windows PowerShell, right-click on the app and choose Run as administrator.\nAnswer “Yes” when it asks if you want the App to make changes on your computer.\nA terminal will open; run the command: wsl --install.\n\nThis should start installing “ubuntu”.\nIt may ask for you to restart your computer.\n\nAfter restart, click the Windows key and search for Ubuntu, click on the App and it should open a new terminal.\nFollow the instructions to create a username and password (you can use the same username and password that you have on Windows, or a different one - it’s your choice).\nYou should now have access to a Ubuntu Linux terminal. This (mostly) behaves like a regular Ubuntu terminal, and you can install apps using the sudo apt install command as usual.\n\nAfter WSL is installed, it is useful to create shortcuts to your files on Windows. Your C:\\ drive is located in /mnt/c/ (equally, other drives will be available based on their letter). For example, your desktop will be located in: /mnt/c/Users/&lt;WINDOWS USERNAME&gt;/Desktop/. It may be convenient to set shortcuts to commonly-used directories, which you can do using symbolic links, for example:\n\nDocuments: ln -s /mnt/c/Users/&lt;WINDOWS USERNAME&gt;/Documents/ ~/Documents\n\nIf you use OneDrive to save your documents, use: ln -s /mnt/c/Users/&lt;WINDOWS USERNAME&gt;/OneDrive/Documents/ ~/Documents\n\nDesktop: ln -s /mnt/c/Users/&lt;WINDOWS USERNAME&gt;/Desktop/ ~/Desktop\nDownloads: ln -s /mnt/c/Users/&lt;WINDOWS USERNAME&gt;/Downloads/ ~/Downloads\n\n\n\n\n\n\nMac OS already has a terminal available.\nPress ⌘ + space to open spotlight search and type “terminal”.\nOptionally, if you would like a terminal with more modern features, we recommend installing iTerm2.\n\n\nLinux distributions already have a terminal available.\nOn Ubuntu you can press Ctrl + Alt + T to open it.\n\n\n\n\n\nFilezilla\n\nWindowsmacOSLinux\n\n\n\nGo to the Filezilla Download page and download the file FileZilla_3.65.0_win64-setup.exe (the latest version might be slightly different). Double-click the downloaded file to install the software, accepting all the default options.\nAfter completing the installation, go to your Windows Menu, search for “Filezilla” and launch the application, to test that it was installed successfully.\n\n\n\n\nGo to the Filezilla Download page and download either the macOS (Intel) (for older processors) or macOS (Apple Silicon) (for newer M* processors) installers.\nGo to the Downloads folder and double-click the file you just downloaded to extract the application. Drag-and-drop the “Filezilla” file into your “Applications” folder.\nYou can now open the installed application to check that it was installed successfully (the first time you launch the application you will get a warning that this is an application downloaded from the internet - you can go ahead and click “Open”).\n\n\n\n\nFilezilla often comes pre-installed in major Linux distributions such as Ubuntu. Search your applications to check that it is installed already.\nIf it is not, open a terminal and run:\n\nUbuntu: sudo apt-get update && sudo apt-get install filezilla\nCentOS: sudo yum -y install epel-release && sudo yum -y install filezilla",
+    "crumbs": [
+      "Slides",
+      "Welcome",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>Data & Setup</span>"
+    ]
+  },
+  {
+    "objectID": "materials/01-intro.html",
+    "href": "materials/01-intro.html",
+    "title": "3  HPC Introduction",
+    "section": "",
+    "text": "3.1 What is a HPC and what are its uses?\nHPC stands for High-Performance Computing and refers to the use of powerful computers and programming techniques to solve computationally-intensive tasks. Very often, several of these high-performance computers are connected together in a network and work as a unified system, forming a HPC cluster. The main usage of HPC clusters is to run resource-intensive and/or parallel tasks. For example: running thousands of simulations, each one taking several hours; assembling a genome from sequencing data, which requires computations on large volumes of data in memory.\nHPC clusters typically consist of numerous nodes (computers) connected through a high-speed network, and they are used to distribute and parallelise tasks.\nThere are two types of nodes:\nUsers do not have direct access to the compute nodes and instead submitting jobs via a job scheduler. A job scheduler is a software used to submit commands to be run on the compute nodes (orange box in Figure 3.1). This is needed because there may often be thousands of processes that all the users of the HPC want to run at any one time. The job scheduler’s role is to manage all these jobs, so you don’t have to worry about it.\nWhen working on a HPC it is important to understand what kinds of resources are available to us in the compute nodes. The user can request specific resources to run their job (e.g. number of cores, RAM, how much time we want to reserve the compute node to run our job, etc.). The more accurate the user request is, the more appropriately the job will be assigned in the queue of the scheduler.\nThese are the main resources we need to consider:\nUsually, HPC servers are available to members of large institutions (such as a Universities or research institutes) or sometimes from cloud providers. This means that:\nSo, at any one time, across all the users, there might be many thousands of processes running on the HPC!\nFigure 1 shows a schematic of a HPC, and we go into its details in the following sections.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HPC Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "materials/01-intro.html#what-is-a-hpc-and-what-are-its-uses",
+    "href": "materials/01-intro.html#what-is-a-hpc-and-what-are-its-uses",
+    "title": "3  HPC Introduction",
+    "section": "",
+    "text": "login nodes (also known as head or submit nodes). This is where a user connects and interacts with the cluster/HPC (e.g. navigating the filesystem, download files, make small edits to files).\ncompute nodes (also known as worker nodes). These are the machines that will actually do the hard work of running jobs. These have higher RAM/CPU capacity, suitable for computationally demanding tasks.\n\n\n\n\n\nCPU (central processing units) is the “brain” of the computer, performing a wide range of operations and calculations. CPUs can have several “cores”, which means they can run tasks in parallel, increasing the throughput of calculations per second. A typical personal computer may have a CPU with 4-8 cores. A single compute node on the HPC may have 32-48 cores (and often these are faster than the CPU on our computers).\nRAM (random access memory) is a quick access storage where data is temporarily held while being processed by the CPU. A typical personal computer may have 8-32Gb of RAM. A single compute nodes on a HPC may often have &gt;100Gb RAM.\nGPUs (graphical processing units) are similar to CPUs, but are more specialised in the type of operations they can do. While less flexible than CPUs, each GPU can do thousands of calculations in parallel. This makes them extremely well suited for graphical tasks, but also more generally for matrix computations and so are often used in machine learning applications.\n\n\n\nThere are many users, who may simultaneously be using the HPC.\nEach user may want to run several jobs concurrently.\nOften large volumes of data are being processed and there is a need for high-performance storage (allowing fast read-writting of files).\n\n\n\n\n\n\n\n\n\nFigure 3.1: Organisation of a typical HPC.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HPC Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "materials/01-intro.html#parallelisation",
+    "href": "materials/01-intro.html#parallelisation",
+    "title": "3  HPC Introduction",
+    "section": "3.2 Parallelisation",
+    "text": "3.2 Parallelisation\nIn terms of parallelising calculations, there are two ways to think about it, and which one we use depends on the specific application. Some software packages have been developed to internally parallelise their calculations (or you may write your own script that uses a parallel library). These are very commonly used in bioinformatics applications, for example. In this case we may want to submit a single job, requesting several CPU cores for it.\nIn other cases, we may have a program that does not parallelise its calculations, but we want to run many iterations of it. A typical example is when we want to run simulations: each simulation only uses a single core, but we want to run thousands of them. In this case we would want to submit each simulation as a separate job, but only request a single CPU core for each job.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HPC Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "materials/01-intro.html#filesystem",
+    "href": "materials/01-intro.html#filesystem",
+    "title": "3  HPC Introduction",
+    "section": "3.3 Filesystem",
+    "text": "3.3 Filesystem\nThe filesystem on a HPC cluster often consists of storage partitions that are shared across all the nodes, including both the login and compute nodes (green box in Figure 1). This means that data can be accessed from all the computers that compose the HPC cluster.\nAlthough the filesystem organisation may differ depending on the institution, typical HPC servers often have two types of storage:\n\nThe user’s home directory (e.g. /home/user) is the default directory that one lands on when logging in to the HPC. This is often quite small and possibly backed up. The home directory can be used for storing things like configuration files or locally installed software.\nA scratch space (e.g. /scratch/user), which is high-performance, large-scale storage. This type of storage may be private to the user or shared with a group. It is usually not backed up, so the user needs to ensure that important data are stored elsewhere. This is the main partition were data is processed from.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HPC Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "materials/01-intro.html#summary",
+    "href": "materials/01-intro.html#summary",
+    "title": "3  HPC Introduction",
+    "section": "3.4 Summary",
+    "text": "3.4 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nA HPC consists of several computers connected in a network. Each of these computers are called a node:\nThe login nodes are the machines that we connect to and from where we interact with the HPC. These should not be used to run resource-intensive tasks.\nThe compute nodes are the high-performance machines on which the actual heavy computations run. Jobs are submitted to the compute nodes through a job scheduler.\nThe job scheduler is used to submit scripts to be run on the compute nodes.\n\nThe role of this software is to manage large numbers of jobs being submitted and prioritise them according to their resource needs.\nWe can configure how our jobs are run by requesting the adequate resources (CPUs and RAM memory).\nChoosing resources appropriately helps to get our jobs the right level of priority in the queue.\n\nThe filesystem on a HPC is often split between a small (backed) home directory, and a large and high-performance (non-backed) scratch space.\n\nThe user’s home is used for things like configuration files and local software instalation.\nThe scratch space is used for the data and analysis scripts.\nNot all HPC servers have this filesystem organisation - always check with your local HPC admin.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>HPC Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "materials/02-ssh.html",
+    "href": "materials/02-ssh.html",
+    "title": "4  Remote Work",
+    "section": "",
+    "text": "4.1 Connecting to the HPC\nAll interactions with the HPC happen via the terminal. To connect to the HPC we use the program ssh. The syntax is:\nAfter running this command you will be asked for your password and after typing it you will be logged in to the HPC.\nNote that the first time you login to a server, you will be presented with a message similar to:\nIf you are confident about the security of the server you are connecting to, you can type yes. Often, the server fingerprint is sent by the HPC admins ahead of time (or available in the documentation) for you to compare and confirm you are connecting to the correct server. For example, at Cambridge, we are provided with this information on the CSD3 documentation page.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Remote Work</span>"
+    ]
+  },
+  {
+    "objectID": "materials/02-ssh.html#connecting-to-the-hpc",
+    "href": "materials/02-ssh.html#connecting-to-the-hpc",
+    "title": "4  Remote Work",
+    "section": "",
+    "text": "ssh your-hpc-username@hpc-address\n\n\nThe authenticity of host '[192.168.1.59]:2231 ([192.168.1.59]:2231)' can't be established.\nRSA key fingerprint is SHA256:4X1kUMDOG021U52XDL2U56GFIyC+S5koImofnTHvALk.\nAre you sure you want to continue connecting (yes/no)?\n\n\nWindowsmacOSLinux\n\n\n\nMobaXtermWSLPutty\n\n\nOn Windows, if you are using the MobaXterm program, you can open a terminal as shown below. To paste text to the MobaXterm terminal you can use the right-click mouse button. The first time you right-click with your mouse on the terminal, a window will open asking what you would like to do. Select “Paste” (the default) and, from there on, every time you right-click on the terminal it will paste text from your clipboard.\n\n\n\nLogin to HPC using the MobaXterm terminal. 1) Click “Start local terminal” 2) Use the ssh program to connect to the HPC. You may get a warning if this is the first time you connect; if you trust the server, type “yes”. 3) You will then be asked for your password. Note that as you type the password nothing shows on the screen, but that’s normal. A window might open asking you whether you would like to save the password - answer “No”. 4) You will receive a login message your terminal will now indicate your HPC username and the name of the HPC server.\n\n\n\n\nTo open the terminal search for “Terminal” on your Windows apps.\nTo copy and paste text you can use the usual keyboard shortcuts Ctrl + C and Ctrl + V. Alternatively, you can use the right mouse button.\n\n\n\nLogin to HPC using the terminal. 1) Use the ssh program to connect to the HPC. You may get a warning if this is the first time you connect; if you trust the server, type “yes”. 2) You will then be asked for your password. Note that as you type the password nothing shows on the screen, but that’s normal. 3) You will receive a login message and your terminal will now indicate your HPC username and the name of the HPC server.\n\n\n\n\nAn alternative way to connect to a remote server on Windows is to use the program Putty. This is less flexible than the other two alternatives, as it doesn’t give you command-line tools for file transfer (covered in a later chapter).\n\n\n\nLogin to HPC using the Putty application. 1) Under “Host Name” type your username@hostname. 2) Click “Open”. 3) The first time you connect you get a warning if this is the first time you connect; if you trust the server, press “Accept”. 4) A terminal will open and ask for your password. Note that as you type the password nothing shows on the screen, but that’s normal. After typing your password you will be given a terminal on the remote HPC.\n\n\n\n\n\n\n\nTo open the terminal press ⌘ + space to open spotlight search. Search for “terminal” and press enter.\nTo copy and paste text you can use the usual keyboard shortcuts ⌘ + C and ⌘ + V. Alternatively, you can use the right mouse button.\n\n\n\nLogin to HPC using the terminal. 1) Use the ssh program to connect to the HPC. You may get a warning if this is the first time you connect; if you trust the server, type “yes”. 2) You will then be asked for your password. Note that as you type the password nothing shows on the screen, but that’s normal. 3) You will receive a login message and your terminal will now indicate your HPC username and the name of the HPC server.\n\n\n\n\nYou can open your terminal using the keyboard shortcut: Ctrl + Alt + T. To copy and paste text on the terminal you have to use the shortcut Ctrl + Shift + C and Ctrl + Shift + V. Alternatively, you can use the right mouse button.\n\n\n\nLogin to HPC using the terminal. 1) Use the ssh program to connect to the HPC. You may get a warning if this is the first time you connect; if you trust the server, type “yes”. 2) You will then be asked for your password. Note that as you type the password nothing shows on the screen, but that’s normal. 3) You will receive a login message and your terminal will now indicate your HPC username and the name of the HPC server.\n\n\n\n\n\n\n\n\n\n\n\nPasswordless Login\n\n\n\nTo make your life easier, you can configure ssh to login to a server without having to type your password or username. This can be done using SSH key based authentication. See this page with detailed instructions of how to create a key and add it to the remote host.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Remote Work</span>"
+    ]
+  },
+  {
+    "objectID": "materials/02-ssh.html#editing-scripts-remotely",
+    "href": "materials/02-ssh.html#editing-scripts-remotely",
+    "title": "4  Remote Work",
+    "section": "4.2 Editing Scripts Remotely",
+    "text": "4.2 Editing Scripts Remotely\nMost of the work you will be doing on a HPC is editing script files. These may be scripts that you are developing to do a particular analysis or simulation, for example (in Python, R, Julia, etc.). But also you will be writing shell scripts containing the commands that you want to be executed on the compute nodes.\nThere are several possibilities to edit text files on a remote server. A simple one is to use the program Nano directly from the terminal. This is a simple text editor available on most linux distributions, and what we will use in this course.\n\nTo create a file with Nano you can run the command:\nnano test.sh\nThis opens a text editor, where you can type the code that you want to save in the file. Once we’re happy with our code, we can press Ctrl+O to write our data to disk. We’ll be asked what file we want to save this to: press Enter to confirm the filename. Once our file is saved, we can use Ctrl+X to quit the editor and return to the shell.\nAlthough Nano is readily available and easy to use, it offers limited functionality and is not as user friendly as a full-featured text editor. Another options is Visual Studio Code (VS Code for short), which is an open-source software with a wide range of functionality and several extensions, including one for working on remote servers.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Remote Work</span>"
+    ]
+  },
+  {
+    "objectID": "materials/02-ssh.html#summary",
+    "href": "materials/02-ssh.html#summary",
+    "title": "4  Remote Work",
+    "section": "4.3 Summary",
+    "text": "4.3 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nThe terminal is used to connect and interact with the HPC.\n\nTo connect to the HPC we use ssh username@remote-hostname.\n\nNano is a text editor that is readily available on HPC systems.\n\nTo create or edit an existing file we use the command nano path/to/filename.sh.\nKeyboard shortcuts are used to save the file (Ctrl + O) and to exit (Ctrl + X).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Remote Work</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html",
+    "href": "materials/03-slurm.html",
+    "title": "5  SLURM Scheduler",
+    "section": "",
+    "text": "5.1 Job Scheduler Overview\nAs we briefly discussed in “Introduction to HPC”, HPC servers usually have a job scheduler software that manages all the jobs that the users submit to be run on the compute nodes. This allows efficient usage of the compute resources (CPUs and RAM), and the user does not have to worry about affecting other people’s jobs.\nThe job scheduler uses an algorithm to prioritise the jobs, weighing aspects such as:\nBased on these, the algorithm will rank each of the jobs in the queue to decide on a “fair” way to prioritise them. Note that priority changes dynamically depending on how jobs are submitted and managed.\nIn these materials we will cover a job scheduler called SLURM, however the way this scheduler works is very similar to other schedulers. The specific commands may differ, but the functionality is the same (see this document for matching commands to other job sheculers).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html#job-scheduler-overview",
+    "href": "materials/03-slurm.html#job-scheduler-overview",
+    "title": "5  SLURM Scheduler",
+    "section": "",
+    "text": "How much time did you request to run your job?\nHow many resources (CPUs and RAM) do you need?\nHow many other jobs have you got running at the moment?",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html#submitting-a-job-with-slurm",
+    "href": "materials/03-slurm.html#submitting-a-job-with-slurm",
+    "title": "5  SLURM Scheduler",
+    "section": "5.2 Submitting a Job with SLURM",
+    "text": "5.2 Submitting a Job with SLURM\nTo submit a job to SLURM, you need to include your code in a shell script. Let’s start with a minimal example.\n#!/bin/bash\n\nsleep 60 # hold for 60 seconds\necho \"This job is running on:\"\nhostname\nYou can save this script as simple_job.sh and run it from the login node using the bash interpreter:\nbash simple_job.sh\nWhich prints the output:\nThis job is running on:\nlogin-node-name\nTo submit the job to the SLURM scheduler we instead use the sbatch command in a very similar way:\nsbatch simple_job.sh\nIn this case, we are informed that the job is submitted to the SLURM queue with a jobid number assigned by the scheduler. By default an output file is stored under the name slurm-JOBID.out.\nYou can see all your jobs in the queue with:\nsqueue -u yourusername\nand we will see an output like this one:\nJOBID  PARTITION      NAME      USER  ST  TIME  NODES  NODELIST(REASON)\n  193   training  simple_j  particip   R  0:02      1  training-dy-t2medium-2\nMore information of the sbatch and squeue command, options, arguments and output can be found in SLURM documentation here and here\n\n5.2.1 Partitions\nOften, HPC servers have different types of compute node setups (e.g. queues for fast jobs, or long jobs, or high-memory jobs, etc.). SLURM calls these “partitions” and you can use the -p option to choose which partition your job runs on. Usually, which partitions are available on your HPC should be provided by the admins.\nIt’s worth keeping in mind that partitions have separate queues, and you should always try to choose the partition that is most suited to your job.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html#getting-job-information",
+    "href": "materials/03-slurm.html#getting-job-information",
+    "title": "5  SLURM Scheduler",
+    "section": "5.3 Getting Job Information",
+    "text": "5.3 Getting Job Information\nAfter submitting a job, we may want to know:\n\nWhat is going on with my job? Is it running or has it finished?\nIf it finished, did it finish successfully, or did it fail?\nHow many resources (e.g. RAM) did it use?\nWhat if I want to cancel a job because I realised there was a mistake in my script?\n\nTo see more information for a job (and whether it completed or failed), you can use:\nseff JOBID\nThis shows you the status of the job (running, completed, failed), how many cores it used, how long it took to run and how much memory it used.\nAlternatively, you can use the sacct command, which allows displaying this and other information in a more condensed way (and for multiple jobs if you want to).\nFor example:\nsacct -j JOBID\nAll the format options available with sacct can be listed using sacct -e. There are many options to extract information of your jobs, you can get familiar with them in the SLURM documentation.\n\n\n\n\n\n\nNote\n\n\n\nThe sacct command may not be available on every HPC, as it depends on how it was configured by the admins.\n\n\nYou can also see more details about a job, such as the working directory and output directories, using:\nscontrol show job &lt;JOBID&gt;\nFinally, if you want to cancel a job, you can use:\nscancel &lt;JOBID&gt;\nAnd to cancel all your jobs simultaneously: scancel -u &lt;USERNAME&gt; (you will not be able to cancel other people’s jobs, so don’t worry about it).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html#slurm-environment-variables",
+    "href": "materials/03-slurm.html#slurm-environment-variables",
+    "title": "5  SLURM Scheduler",
+    "section": "5.4 SLURM Environment Variables",
+    "text": "5.4 SLURM Environment Variables\nOne useful feature of SLURM jobs is the automatic creation of environment variables. Generally speaking, variables are a character that store a value within them, and can either be created by us, or sometimes they are automatically created by programs or available by default in our shell. When you submit a job with SLURM, it creates several variables, all starting with the prefix $SLURM_. One useful variable is $SLURM_CPUS_PER_TASK, which stores how many CPUs we requested for our job. This means that we can use the variable to automatically set the number of CPUs for software that support multi-processing. We will see an example in the following exercise.\nHere is a table summarising some of the most useful environment variables that SLURM creates:\n\n\n\nVariable\nDescription\n\n\n\n\n$SLURM_CPUS_PER_TASK\nNumber of CPUs requested with -c\n\n\n$SLURM_JOB_ID\nThe job ID\n\n\n$SLURM_JOB_NAME\nThe name of the job defined with -J\n\n\n$SLURM_SUBMIT_DIR\nThe working directory defied with -D\n\n\n$SLURM_ARRAY_TASK_ID\nThe number of the sub-job when running parallel arrays (covered in the Job Arrays section)",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/03-slurm.html#summary",
+    "href": "materials/03-slurm.html#summary",
+    "title": "5  SLURM Scheduler",
+    "section": "5.5 Summary",
+    "text": "5.5 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nInclude the commands you want to run on the HPC in a shell script.\n\nAlways remember to include #!/bin/bash as the first line of your script (this is called a (shebang)[https://en.wikipedia.org/wiki/Shebang_(Unix)]).\n\nSubmit jobs to the scheduler using sbatch submission_script.sh.\nCustomise the jobs by including #SBATCH options at the top of your script as described in (SLURM docs)[https://slurm.schedmd.com/sbatch.html].\nCheck the status of a submitted job by using squeue -u USERNAME, seff JOBID or -j JOBID.\nTo cancel a running job use scancel JOBID.\n\nSee this SLURM cheatsheet for a summary of the available commands.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>SLURM Scheduler</span>"
+    ]
+  },
+  {
+    "objectID": "materials/04-software.html",
+    "href": "materials/04-software.html",
+    "title": "6  Software Management [EXTRA]",
+    "section": "",
+    "text": "6.1 Using pre-installed software\nIt is very often the case that HPC admins have pre-installed several software packages that are regularly used by their users. Because there can be a large number of packages (and often different versions of the same program), you need to load the programs you want to use in your script using the module tool.\nThe following table summarises the most common commands for this tool:",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Software Management [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/04-software.html#sec-module",
+    "href": "materials/04-software.html#sec-module",
+    "title": "6  Software Management [EXTRA]",
+    "section": "",
+    "text": "Command\nDescription\n\n\n\n\nmodule avail\nList all available packages.\n\n\nmodule avail -a -i \"pattern\"  or  module avail 2&gt;&1 | grep -i \"pattern\"\nSearch the available package list that matches “pattern”. Note the second option is given as some versions of module do not support case-insensitive search (-i option).\n\n\nmodule load &lt;program&gt;\nLoad the program and make it available for use.\n\n\nmodule unload &lt;program&gt;\nUnload the program (removes it from your PATH).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Software Management [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/04-software.html#the-mamba-package-manager",
+    "href": "materials/04-software.html#the-mamba-package-manager",
+    "title": "6  Software Management [EXTRA]",
+    "section": "6.2 The Mamba package manager",
+    "text": "6.2 The Mamba package manager\nOften you may want to use software packages that are not installed by default on the HPC. There are several ways you could manage your own software installation, but in this course we will be using the package manager Mamba, which is a successor to another package manager called Conda.\nConda and Mamba are package managers commonly used in data science, scientific computing, and bioinformatics. Conda, originally developed by Anaconda, is a package manager and environment manager that simplifies the creation, distribution, and management of software environments containing different packages and dependencies. It is known for its cross-platform compatibility and ease of use. Mamba is a more recent and high-performance alternative to Conda. While it maintains compatibility with Conda’s package and environment management capabilities, Mamba is designed for faster dependency resolution and installation, making it a better choice nowadays.\nOne of the strengths of using Mamba to manage your software is that you can have different versions of your software installed alongside each other, organised in environments. Organising software packages into environments is extremely useful, as it allows to have a reproducible set of software versions that you can use and resuse in your projects.\n\n\n\n\n\n\nFigure 6.1: Illustration of Conda/Mamba environments. Each environment is isolated from the others (effectively in its own folder), so different versions of the packages can be installed for distinct projects or parts of a long analysis pipeline.\n\n\n\nTo install mamba you can follow the instructions from a fresh install in the mamba website.\n\n\n\n\n\n\nMamba versus Module\n\n\n\nAlthough Mamba is a great tool to manage your own software installation, the disadvantage is that the software is not compiled specifically taking into account the hardware of the HPC. This is a slightly technical topic, but the main practical consequence is that software installed by HPC admins and made available through the module system may sometimes run faster than software installed via mamba. This means you will use fewer resources and your jobs will complete faster.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Software Management [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/04-software.html#containers",
+    "href": "materials/04-software.html#containers",
+    "title": "6  Software Management [EXTRA]",
+    "section": "6.3 Containers",
+    "text": "6.3 Containers\nContainers are a technology that can be used to create and manage computational environments. A container is a lightweight, standalone executable package that contains everything needed to run a piece of software, including the operating system, libraries, and application code. By using containers, researchers can ensure that their code runs consistently across different systems and platforms, without having to worry about dependencies or conflicts with other software on the host system.\nFor an HPC we recommend one of the most popular container platforms for cluster systems: Singularity. Singularity is a free and open-source computer program that performs operating-system-level virtualization also known as containerization. Singularity is also designed to create and manage isolated environments as Docker, which is another popular and wildly used container platform (i.e. images created with docker can be compatible with Singularity and vice versa)*.\n\n\n\n\n\n\nDocker vs singularity\n\n\n\n\n\n\nDocker is well-suited for building and distributing software across different platforms and operating systems\nSingularity is specifically designed for use in HPC environments and can provide improved security and performance in those settings.\n\n\n\n\n\n6.3.1 Singularity images\nAlthough you can build your own Singularity images, for many popular software there are already pre-built images available from public repositories. Some popular ones are:\n\ndepot.galaxyproject.org\nSylabs\n\nTo download a software container from public repositories, use the singularity pull command as follows:\nsingularity pull my_seqkit_image.sif https://depot.galaxyproject.org/singularity/seqkit%3A2.8.0--h9ee0642_0\nand then run it as:\nsingularity run my_seqkit_image.sif seqkit --help",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Software Management [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/04-software.html#summary",
+    "href": "materials/04-software.html#summary",
+    "title": "6  Software Management [EXTRA]",
+    "section": "6.4 Summary",
+    "text": "6.4 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nThe module tool can be used to search for and load pre-installed software packages on a HPC.\n\nThis tool may not always be available on your HPC.\n\nTo install your own software, you can use the Mamba package manager.\nSoftware containers can be a reliable alternative to Mamba environments, with many pre-existing containers available at Sylabs and depot.galaxyproject.org.\nTo download a software container from public repositories, use the singularity pull command.\nTo run a command within the software container, use the singularity run command.\n\nFurther resources:\n\nSearch for Mamba packages at anaconda.org.\nLearn more about Conda from the Conda User Guide.\nConda Cheatsheet (PDF).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Software Management [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/05-arrays.html",
+    "href": "materials/05-arrays.html",
+    "title": "7  Job Paralellisation [EXTRA]",
+    "section": "",
+    "text": "7.1 Parallelising Tasks\nOne of the important concepts in the use of a HPC is parallelisation. This concept is used in different ways, and can mean slightly different things.\nA program may internally support parallel computation for some of its tasks, which we may refer to as multi-threading or multi-core processing. In this case, there is typically a single set of “input -&gt; output”, so all the parallel computations need to finish in order for us to obtain our result. In other words, there is some dependency between those parallel calculations.\nOn the other hand, we may want to run the same program on different inputs, where each run is completely independent from the previous run. In these cases we say the task is “embarrassingly parallel”. Usually, running tasks completely in parallel is faster, since we remove the need to keep track of what each task’s status is (since they are independent of each other).\nFinally, we may want to do both things: run several jobs in parallel, while each of the jobs does some internal parallelisation of its computations (multi-threading).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Job Paralellisation [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/05-arrays.html#parallelising-tasks",
+    "href": "materials/05-arrays.html#parallelising-tasks",
+    "title": "7  Job Paralellisation [EXTRA]",
+    "section": "",
+    "text": "Schematic of parallelisation.\n\n\n\n\n\n\n\n\nNote\n\n\n\nTerminology Alert!\nSome software packages have an option to specify how many CPU cores to use in their computations (i.e. they can parallelise their calculations). However, in their documentation this you may be referred to as cores, processors, CPUs or threads, which are used more or less interchangeably to essentially mean “how many calculations should I run in parallel?”. Although these terms are technically different, when you see this mentioned in the software’s documentation, usually you want to set it as the number of CPU cores you request from the cluster.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Job Paralellisation [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/05-arrays.html#job-arrays",
+    "href": "materials/05-arrays.html#job-arrays",
+    "title": "7  Job Paralellisation [EXTRA]",
+    "section": "7.2 Job Arrays",
+    "text": "7.2 Job Arrays\nThere are several ways to parallelise jobs on a HPC. One of them is to use a built-in functionality in SLURM called job arrays.\nJob arrays are a collection of jobs that run in parallel with identical parameters. Any resources you request (e.g. -c, --mem, -t) apply to each individual job of the “array”. This means that you only need to submit one “master” job, making it easier to manage and automate your analysis using a single script.\nJob arrays are created with the SBATCH option -a START-FINISH where START and FINISH are integers defining the range of array numbers created by SLURM. SLURM then creates a special shell variable $SLURM_ARRAY_TASK_ID, which contains the array number for the job being processed. Later in this section we will see how we can use some tricks with this variable to automate our analysis.\nFor now let’s go through this simple example, which shows what a job array looks like (you can find this script in the course folder slurm/parallel_arrays.sh):\n# ... some lines omitted ...\n#SBATCH -o logs/parallel_arrays_%a.log\n#SBATCH -a 1-3\n\necho \"This is task number $SLURM_ARRAY_TASK_ID\"\necho \"Using $SLURM_CPUS_PER_TASK CPUs\"\necho \"Running on:\"\nhostname\nSubmitting this script with sbatch slurm/parallel_arrays.sh will launch 3 jobs. The “%a” keyword is used in our output filename (-o) and will be replaced by the array number, so that we end up with three files: parallel_arrays_1.log, parallel_arrays_2.log and parallel_arrays_3.log. Looking at the output in those files should make it clearer that $SLURM_ARRAY_TASK_ID stores the array number of each job, and that each of them uses 2 CPUS (-c 2 option). The compute node that they run on may be variable (depending on which node was available to run each job).\n\n\n\n\n\n\nNote\n\n\n\nYou can define job array numbers in multiple ways, not just sequencially.\nHere are some examples taken from SLURM’s Job Array Documentation:\n\n\n\n\n\n\n\nOption\nDescription\n\n\n\n\n-a 0-31\nindex values between 0 and 31\n\n\n-a 1,3,5,7\nindex values of 1, 3, 5 and 7\n\n\n-a 1-7:2\nindex values between 1 and 7 with a step size of 2 (i.e. 1, 3, 5 and 7)",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Job Paralellisation [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/05-arrays.html#using-slurm_array_task_id-to-automate-jobs",
+    "href": "materials/05-arrays.html#using-slurm_array_task_id-to-automate-jobs",
+    "title": "7  Job Paralellisation [EXTRA]",
+    "section": "7.3 Using $SLURM_ARRAY_TASK_ID to Automate Jobs",
+    "text": "7.3 Using $SLURM_ARRAY_TASK_ID to Automate Jobs\nOne way to automate our jobs is to use the job array number (stored in the $SLURM_ARRAY_TASK_ID variable) with some command-line tricks. The trick we will demonstrate here is to parse a CSV file to read input parameters for our scripts.\nFor example, in our data/ folder we have the following file, which includes information about parameter values we want to use with a tool in our next exercise.\n$ cat data/turing_model_parameters.csv\nf,k\n0.055,0.062\n0.03,0.055\n0.046,0.065\n0.059,0.061\nThis is a CSV (comma-separated values) format, with two “columns” named “f” and “k”. Let’s say we wanted to obtain information for the 2rd set of parameters, which in this case is in the 3rd line of the file (because of the column header). We can get the top N lines of a file using the head command (we pipe the output of the previous cat command):\n$ cat data/turing_model_parameters.csv | head -n 3\nThis gets us lines 1-3 of the file. To get just the information about that 2nd set of parameters, we can now pipe the output of the head command to the command that gets us the bottom lines of a file tail:\n$ cat data/turing_model_parameters.csv | head -n 3 | tail -n 1\nFinally, to separate the two values that are separated by a comma, we can use the cut command, which accepts a delimiter (-d option) and a field we want it to return (-f option):\n$ cat data/turing_model_parameters.csv | head -n 3 | tail -n 1 | cut -d \",\" -f 1\nIn this example, we use comma as a delimiter field and obtained the first of the values after “cutting” that line.\nSchematically, this is what we’ve done:\n\nSo, if we wanted to use job arrays to automatically retrieve the relevant line of this file as its input, we could use head -n $SLURM_ARRAY_TASK_ID in our command pipe above. Let’s see this in practice in our next exercise.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Job Paralellisation [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/05-arrays.html#summary",
+    "href": "materials/05-arrays.html#summary",
+    "title": "7  Job Paralellisation [EXTRA]",
+    "section": "7.4 Summary",
+    "text": "7.4 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nSome tools internally parallelise some of their computations, which is usually referred to as multi-threading or multi-core processing.\nWhen computational tasks are independent of each other, we can use job parallelisation to make them more efficient.\nWe can automatically generate parallel jobs using SLURM job arrays with the sbatch option -a.\nSLURM creates a variable called $SLURM_ARRAY_TASK_ID, which can be used to customise each individual job of the array.\n\nFor example we can obtain the input/output information from a simple configuration text file using some command line tricks: cat config.csv | head -n $SLURM_ARRAY_TASK_ID | tail -n 1\n\n\nFurther resources:\n\nSLURM Job Array Documentation",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Job Paralellisation [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html",
+    "href": "materials/06-dependencies.html",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "",
+    "text": "8.1 What is a job dependency?\nA job is said to have a dependency when it only starts based on the status of another job. For example, take this linear pipeline:\nwhere each script is taking as input the result from the previous script.\nWe may want to submit all these scripts to SLURM simultaneously, but making sure that script2 only starts after script1 finishes (successfully, without error) and, in turn, script3 only starts after script2 finishes (also successfully).\nWe can achieve this kind of job dependency using the SLURM option --dependency. There are several types of dependencies that can be used, some common ones being:\nWe will give examples of afterok, afternotok and singleton, which are commonly used.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#what-is-a-job-dependency",
+    "href": "materials/06-dependencies.html#what-is-a-job-dependency",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "",
+    "text": "script1.sh ----&gt; script2.sh ----&gt; script3.sh\n\n\n\n\n\n\n\n\n\n\nsyntax\nthe job starts after…\n\n\n\n\n--dependency=after:jobid[:jobid...]\nthe specified jobs have started\n\n\n--dependency=afterany:jobid[:jobid...]\nthe specified jobs terminated (with or without an error)\n\n\n--dependency=afternotok:jobid[:jobid...]\nthe specified jobs terminated with an error\n\n\n--dependency=afterok:jobid[:jobid...]\nthe specified jobs terminated successfully (exit code 0)\n\n\n--dependency=singleton\nother jobs with the same name and user have ended\n\n\n\n\n\n\n\nExample of a pipeline using job dependencies. Each of the first steps of the pipeline (filtering.sh) have no dependencies. The second steps of the pipeline (mapping.sh) each have a dependency from the previous job; in this case the --dependency=afterok:JOBID option is used with sbatch. The final step of the pipeline (variant_call.sh) depends on all the previous steps being completed; in this case the --dependency=singleton is used, which will only start this job when all other jobs with the same name (-J variant_pipeline) complete.\n\n\n\n\n\n\n\n\nNote\n\n\n\nDependencies and Arrays\nThe job dependency feature can be combined with job arrays to automate the running of parallel jobs as well as launching downstream jobs that depend on the output of other jobs.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#successful-run-afterok",
+    "href": "materials/06-dependencies.html#successful-run-afterok",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "8.2 Successful Run: afterok",
+    "text": "8.2 Successful Run: afterok\nIf we want a job to start after another one has finished successfully, we can use the afterok dependency keyword.\nLet’s take a simple example of having two scripts, one that creates a file and another that moves that file. The second script can only run successfully once the previous script has completed:\n# first script - creates a file\ntouch output_task1.txt\n# second script - moves the file\nmv output_task1.txt output_task2.txt\nTo submit the first script we do:\nsbatch task1.sh\nSubmitted batch job 221\nNow, we can submit the second job as:\nsbatch  --dependency afterok:221  task2.sh\nThis will ensure that this second job only starts once the first one ends successfully.\n\n\n\n\n\n\nJob arrays and dependencies\n\n\n\nA job may depend on the completion of an array of jobs (as covered in job arrays). Because the whole array of jobs has its own job ID, we can use that with the afterok dependency. In that case, our job will start once all the sub-jobs in the array have completed successfully.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#automating-dependency-submissions",
+    "href": "materials/06-dependencies.html#automating-dependency-submissions",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "8.3 Automating Dependency Submissions",
+    "text": "8.3 Automating Dependency Submissions\nOne inconvenience of the --dependency=afterok:JOBID option is that we need to know the job ID before we launch the new job. For a couple of jobs as shown here this is not a big problem. But if we had a chain of several jobs, this would become quite tedious and prone to error.\nTo overcome this problem, we can create a job submission script that launches sbatch commands, and in the process captures the job numbers to feed into the dependency chain.\nTaking the two-step example above, we could write the following job submission script:\n# first task of our pipeline\n# capture JOBID into a variable\nrun1_id=$(sbatch --parsable task1.sh)\n\n# second task of our pipeline\n# use the previous variable here\nsbatch --dependency afterok:${run1_id} task2.sh\nThe trick here is to use the --parsable option to retrieve the job number from the message that sbatch produces. Usually the message looks like “Submitted batch job XXXX”. With the --parsable option, sbatch only outputs the job number itself.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#unsuccessful-run-afternotok",
+    "href": "materials/06-dependencies.html#unsuccessful-run-afternotok",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "8.4 Unsuccessful Run: afternotok",
+    "text": "8.4 Unsuccessful Run: afternotok\nIt may seem strange to have a dependency where we run our job if the previous one failed. However, this can be extremely useful for very long-running jobs that perform checkpoints and thus can resume from the step they stopped at before.\nThis is particularly useful if you have a maximum time limit enforced by your HPC admins (as it happens at Cambridge). This feature of “checkpoint-and-resume” may not be available in every software, but it is not uncommon for packages that require very long running times. If you’re working with one of these software, check their documentation.\nAlternatively, if you are writing your own programs that require very long running times (e.g. a long simulation), consider including a checkpoint procedure, so you can resume the job if it fails.\nLet’s consider the example in dependency/notok, where we have a SLURM script called task_with_checkpoints.sh. Let’s say that we were limited to a maximum of 1 minute per job and that our script requires around 2.5 minutes to run (of course these are ridiculously short times, but we’re only using to exemplify its use).\nFortunately, the person that wrote this program implemented a checkpoint system, so that our job resumes from the checkpoint, rather than from the beginning. Therefore, we would like to submit the job 3 times in total, but each time only running the job if the previous job has failed.\nThis would be our job submission script:\n# first submission\nrun1_id=$(sbatch --parsable task_with_checkpoints.sh)\n\n# second submission in case the first one fails\nrun2_id=$(sbatch --parsable --dependency afternotok:${run1_id} task_with_checkpoints.sh)\n\n# submit a third time in case the second fails\nrun3_id=$(sbatch --parsable --dependency afternotok:${run2_id} task_with_checkpoints.sh)\n\n# we could continue submitting more... but we should stop after some time\nIn this case, we are always submitting the same script to SLURM, but each time we only run it if the previous iteration failed. Because our script performs checkpoint-and-resume, we can be sure that our task will complete after 3 whole runs.\nSometimes you don’t know how many runs you will need for your job to complete. Hopefully, the software you are using prints some progress information to the log file, so you can check whether the task seems close to finishing or not. If it’s still far from finishing, you can add another afternotok job to the queue, and keep doing this until all your jobs have finished.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#swarm-of-dependencies-singleton",
+    "href": "materials/06-dependencies.html#swarm-of-dependencies-singleton",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "8.5 Swarm of Dependencies: singleton",
+    "text": "8.5 Swarm of Dependencies: singleton\nIn some cases you may have a job that depends on many previous jobs to have finished. In those cases, you can use an alternative dependency known as singleton. This type of dependency requires you to define a job name for all the jobs on which your singleton depends on.\nLet’s consider the example in the dependency/singleton folder. We have task1 and task2, which have no dependencies. However, task3 depends on both of the previous tasks to have completed (it requires both their outputs to generate its own result file).\nIn this case, we add -J JOB-NAME-OF-YOUR-CHOICE to each of these 3 SLURM scripts. Furthermore, to the tast3.sh script we add --dependency singleton, to indicate that we only want this job to start once all the other jobs with the same name have completed.\n\n\n\n\n\n\n\nNote\n\n\n\nBuilding Complex Pipelines\nAlthough the --dependency feature of SLURM can be very powerful, it can be somewhat restrictive to build very large and complex pipelines using SLURM only. Instead, you may wish to build pipelines using dedicated workflow management software that can work with any type of job scheduler or even just on a single server (like your local computer).\nThere are several workflow management languages available, with two of the most popular ones being Snakemake and Nextflow. Covering these is out of the scope for this workshop, but both tools have several tutorials and standardised workflows developed by the community.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/06-dependencies.html#summary",
+    "href": "materials/06-dependencies.html#summary",
+    "title": "8  Job Dependencies [EXTRA]",
+    "section": "8.6 Summary",
+    "text": "8.6 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nJob dependencies can be used to sequentially run different steps of a pipeline.\nThe --dependency feature of SLURM can be used in different ways:\n\n--dependency=afterok:JOBID starts a job after a previous job with the specified ID finishes successfully (no error).\n--dependency=afternotok:JOBID starts a job if the specified job failed. This is useful for long-running tasks that have a “checkpoint-and-resume” feature.\n--dependency=singleton starts a job after all jobs with the same --job-name complete.\n\nTo automate the submission of jobs with dependencies we can:\n\nCapture the JOBID of a submission into a variable: JOB1=$(sbatch --parsable job1.sh)\nUse that variable to set the dependency for another job: sbatch --dependency=afterok:$JOB1 job2.sh",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Job Dependencies [EXTRA]</span>"
+    ]
+  },
+  {
+    "objectID": "materials/07-files.html",
+    "href": "materials/07-files.html",
+    "title": "9  File Transfer",
+    "section": "",
+    "text": "9.1 Moving Files\nThere are several options to move data between your local computer and a remote server. We will cover three possibilities in this section, which vary in their ease of use.\nA quick summary of these tools is given in the table below.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>File Transfer</span>"
+    ]
+  },
+  {
+    "objectID": "materials/07-files.html#moving-files",
+    "href": "materials/07-files.html#moving-files",
+    "title": "9  File Transfer",
+    "section": "",
+    "text": "Filezilla\nSCP\nRsync\n\n\n\n\nInterface\nGUI\nCommand Line\nCommand Line\n\n\nData synchronisation\nyes\nno\nyes\n\n\n\n\n9.1.1 Filezilla (GUI)\nThis program has a graphical interface, for those that prefer it and its use is relatively intuitive.\nTo connect to the remote server (see Figure 3):\n\nFill in the following information on the top panel:\n\n\nHost: login.hpc.cam.ac.uk\nUsername: your HPC username\nPassword: your HPC password\nPort: 22\n\n\nClick “Quickconnect” and the files on your “home” should appear in a panel on right side.\nNavigate to your desired location by either clicking on the folder browser or typing the directory path in the box “Remote site:”.\nYou can then drag-and-drop files between the left side panel (your local filesystem) and the right side panel (the HPC filesystem), or vice-versa.\n\n\n\n\nExample of a Filezilla session. Arrows in red highlight: the connection panel, on the top; the file browser panels, in the middle; the transfer progress panel on the bottom.\n\n\n\n\n9.1.2 scp (command line)\nThis is a command line tool that can be used to copy files between two servers. One thing to note is that it always transfers all the files in a folder, regardless of whether they have changed or not.\nThe syntax is as follows:\n# copy files from the local computer to the HPC\nscp -r path/to/source_folder &lt;user&gt;@login.hpc.cam.ac.uk:path/to/target_folder\n\n# copy files from the HPC to a local directory\nscp -r &lt;user&gt;@login.hpc.cam.ac.uk:path/to/source_folder path/to/target_folder\nThe option -r ensures that all sub-directories are copied (instead of just files, which is the default).\n\n\n9.1.3 rsync (command line)\nThis program is more advanced than scp and has options to synchronise files between two directories in multiple ways. The cost of its flexibility is that it can be a little harder to use.\nThe most common usage is:\n# copy files from the local computer to the HPC\nrsync -auvh --progress path/to/source_folder &lt;user&gt;@login.hpc.cam.ac.uk:path/to/target_folder\n\n# copy files from the HPC to a local directory\nrsync -auvh --progress &lt;user&gt;@login.hpc.cam.ac.uk:path/to/source_folder path/to/target_folder\n\nthe options -au ensure that only files that have changed and are newer on the source folder are transferred\nthe options -vh give detailed information about the transfer and human-readable file sizes\nthe option --progress shows the progress of each file being transferred\n\n\n\n\n\n\n\nWarning\n\n\n\nWhen you specify the source directory as path/to/source_folder/ (with / at the end) or path/to/source_folder (without / at the end), rsync will do different things:\n\npath/to/source_folder/ will copy the files within source_folder but not the folder itself\npath/to/source_folder will copy the actual source_folder as well as all the files within it\n\n\n\n\n\n\n\n\n\nTip\n\n\n\nTo check what files rsync would transfer but not actually transfer them, add the --dry-run option. This is useful to check that you’ve specified the right source and target directories and options.",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>File Transfer</span>"
+    ]
+  },
+  {
+    "objectID": "materials/07-files.html#summary",
+    "href": "materials/07-files.html#summary",
+    "title": "9  File Transfer",
+    "section": "9.2 Summary",
+    "text": "9.2 Summary\n\n\n\n\n\n\nKey Points\n\n\n\n\nTo transfer files to/from the HPC we can use Filezilla, which offers a user-friendly interface to synchronise files between your local computer and a remote server.\n\nTransfering files can also be done from the command line, using tools such as scp and rsync (this is the most flexible tool but also more advanced).",
+    "crumbs": [
+      "Slides",
+      "Working on a HPC",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>File Transfer</span>"
+    ]
+  },
+  {
+    "objectID": "materials/appendices/slurm_cheatsheet.html",
+    "href": "materials/appendices/slurm_cheatsheet.html",
+    "title": "SLURM Quick Reference Guide",
+    "section": "",
+    "text": "SLURM Commands",
+    "crumbs": [
+      "Slides",
+      "Appendices",
+      "SLURM Quick Reference Guide"
+    ]
+  },
+  {
+    "objectID": "materials/appendices/slurm_cheatsheet.html#slurm-commands",
+    "href": "materials/appendices/slurm_cheatsheet.html#slurm-commands",
+    "title": "SLURM Quick Reference Guide",
+    "section": "",
+    "text": "Command\nDescription\n\n\n\n\nsbatch simulation.sh\nsubmit script to scheduler\n\n\nsqueue -u xyz123\njobs currently in the queue\n\n\nscancel JOBID\ncancel the job with the specified ID (get the ID from the command above)\n\n\nscancel -u xyz123\ncancel all your jobs at once\n\n\nseff JOBID\nbasic information about the job\n\n\nsacct -o jobname,account,state,reqmem,maxrss,averss,elapsed -j JOBID\ncustom information about your job",
+    "crumbs": [
+      "Slides",
+      "Appendices",
+      "SLURM Quick Reference Guide"
+    ]
+  },
+  {
+    "objectID": "materials/appendices/slurm_cheatsheet.html#submission-script-template",
+    "href": "materials/appendices/slurm_cheatsheet.html#submission-script-template",
+    "title": "SLURM Quick Reference Guide",
+    "section": "Submission Script Template",
+    "text": "Submission Script Template\nAt the top of the submission shell script, you should have your #SBATCH options. Use this as a general template for your scripts:\n#!/bin/bash\n#SBATCH -A TRAINING-SL3-CPU        # account name\n#SBATCH -J my_simulation           # a job name for convenience\n#SBATCH -D /home/xyz123/rds/hpc-work/simulations  # your working directory\n#SBATCH -o logs/simulation.log     # standard output and standard error will be saved in this file\n#SBATCH -p skylake                 # partition\n#SBATCH -c 2                       # number of CPUs\n#SBATCH --mem=1GB                  # RAM memory\n#SBATCH -t 00:02:00                # Time for the job in HH:MM:SS",
+    "crumbs": [
+      "Slides",
+      "Appendices",
+      "SLURM Quick Reference Guide"
+    ]
+  }
+]
