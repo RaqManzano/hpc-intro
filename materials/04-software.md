@@ -358,7 +358,7 @@ This would produce an image saved as `results/turing/f0.04_k0.06.png`.
 The python script has two package dependencies: **NumPy** and **Matplotlib**:
 
 1. Use `module` to search for NumPy 1.22.4 and Matplotlib 3.5.2
-2. Open the script in `job_scripts/turing_pattern.sh` and:
+2. Open the script in `job_scripts/turing_model.sh` and:
    - Fix your username in the `#SBATCH -D` option.
    - Load the NumPy and Matplotlib modules you found in the previous step.
 3. Submit the script to SLURM using `sbatch`, check it's progress, and whether it ran successfully.
@@ -420,7 +420,7 @@ We noticed that:
 We opened our script in `nano`:
 
 ```bash
-nano job_scripts/turing_pattern.sh
+nano job_scripts/turing_model.sh
 ```
 
 We fixed it to include our username in the `#SBATCH -D` option, and we replaced the word "FIXME" further down to load the two modules found in the previous step:
@@ -438,7 +438,7 @@ We saved the file and exited `nano`: <kbd>Ctrl + X</kbd> → <kbd>Y</kbd> → <k
 After saving the script, we submitted it to the scheduler:
 
 ```bash
-sbatch job_scripts/turing_pattern.sh
+sbatch job_scripts/turing_model.sh
 ```
 
 We monitored the progress using the usual commands available to us:

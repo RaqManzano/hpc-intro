@@ -352,7 +352,7 @@ To run multiple parameter combinations in parallel, the student has prepared a C
 
 Our objective is to automate running these models in parallel on the HPC.
 
-1. Use *Nano* to open the SLURM submission script in `job_scripts/parallel_turing_pattern.sh`.
+1. Use *Nano* to open the SLURM submission script in `job_scripts/parallel_turing_model.sh`.
    The first few lines of the code are used to fetch parameter values from the CSV file:
    - Fix your username in `#SBATCH -D`.
    - Fix the `#SBATCH -a` option - this array should have as many jobs as we have parameter combinations in our CSV file.
@@ -384,7 +384,7 @@ We fixed the code in three places:
 
 **A2.**
 
-We can submit the script with `sbatch job_scripts/parallel_turing_pattern.sh`.
+We can submit the script with `sbatch job_scripts/parallel_turing_model.sh`.
 While the job is running we can monitor its status with `squeue -u USERNAME`.
 We should see several jobs listed with IDs as `JOBID_ARRAYID` format.
 
