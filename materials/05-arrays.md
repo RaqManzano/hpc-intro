@@ -187,7 +187,7 @@ Also, remember to edit SLURM's working directory with your username, at the top 
 **A2.**
 
 We can launch our adjusted script with `sbatch job_scripts/parallel_estimate_pi.sh`.
-When we check our jobs with `squeue -u USERNAME`, we will notice several jobs with JOBID in the format "ID_1", "ID_2", etc. These indicate the number of the array that is currently running as part of that job submission.
+When we check our jobs with `squeue --me`, we will notice several jobs with JOBID in the format "ID_1", "ID_2", etc. These indicate the number of the array that is currently running as part of that job submission.
 
 In this case, we will get 10 output log files, each with the job array number at the end of the filename (we used the `%a` keyword in the `#SBATCH -o` option to achieve this).
 
@@ -316,7 +316,7 @@ We fixed the code in three places:
 **A2.**
 
 We can submit the script with `sbatch job_scripts/parallel_drosophila_mapping.sh`.
-While the job is running we can monitor its status with `squeue -u USERNAME`.
+While the job is running we can monitor its status with `squeue --me`.
 We should see several jobs listed with IDs as `JOBID_ARRAYID` format.
 
 Because we used the `%a` keyword in our `#SBATCH -o` option, we will have an output log file for each job of the array.
@@ -385,7 +385,7 @@ We fixed the code in three places:
 **A2.**
 
 We can submit the script with `sbatch job_scripts/parallel_turing_model.sh`.
-While the job is running we can monitor its status with `squeue -u USERNAME`.
+While the job is running we can monitor its status with `squeue --me`.
 We should see several jobs listed with IDs as `JOBID_ARRAYID` format.
 
 Because we used the `%a` keyword in our `#SBATCH -o` option, we will have an output log file for each job of the array.

@@ -4,7 +4,7 @@ pagetitle: "HPC SLURM"
 
 # SLURM Quick Reference Guide {.unnumbered}
 
-This page summarises the most relevant information to work with the HPC, to be used as a quick-reference guide. 
+This page summarises the most relevant information to work with the HPC, to be used as a quick-reference guide.
 
 This is used in the examples that follow:
 
@@ -20,7 +20,7 @@ This is used in the examples that follow:
 | Command | Description |
 | -: | :- |
 | `sbatch simulation.sh` | submit script to scheduler |
-| `squeue -u xyz123` | jobs currently in the queue |
+| `squeue --me` | jobs currently in the queue |
 | `scancel JOBID` | cancel the job with the specified ID (get the ID from the command above) |
 | `scancel -u xyz123` | cancel all your jobs at once |
 | `seff JOBID` | basic information about the job |
@@ -29,7 +29,7 @@ This is used in the examples that follow:
 
 ## Submission Script Template
 
-At the top of the submission shell script, you should have your `#SBATCH` options. 
+At the top of the submission shell script, you should have your `#SBATCH` options.
 Use this as a general template for your scripts:
 
 ```bash
